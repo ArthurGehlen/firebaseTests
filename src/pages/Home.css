@@ -1,0 +1,61 @@
+#home_main {
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.home_header {
+  width: 100%;
+  padding: 2rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  color: hsl(0, 0%, 100%);
+  border-radius: 0.6rem;
+}
+
+.home_header h1,
+.home_content h2 {
+  font-size: clamp(1rem, 2.2161vw + 0.338rem, 2rem);
+}
+
+.home_content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.home_content ul {
+  list-style: none;
+  width: 100%;
+  text-align: end;
+}
+
+.message_wrapper ul li {
+    margin-top: .4rem;
+    background-color: rgba(0, 212, 255, .4);
+    padding: .8rem;
+    border-radius: .4rem;
+}
+
+.message_wrapper ul li:last-child {
+    margin-bottom: .4rem;
+}
+
+.message_wrapper form input {
+  padding: 1rem .8rem;
+  width: calc(100% - 8rem);
+}
+
+.message_wrapper form button {
+    padding: 1rem .8rem;
+    width: 8rem;
+}

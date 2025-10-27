@@ -56,27 +56,39 @@ const Login = () => {
   };
 
   return (
-    <div className="login_container">
-      <h2>{modo === "login" ? "Entrar" : "Criar conta"}</h2>
+    <div id="login_main">
+      <div className="login_container">
+        <h2>{modo === "login" ? "Entrar" : "Criar conta"}</h2>
 
-      <form onSubmit={handle_submit}>
-        <label>Email:</label>
-        <input type="email" ref={emailRef} />
-        <label>Senha:</label>
-        <input type="password" ref={passwordRef} />
-        <button type="submit">
-          {modo === "login" ? "Entrar" : "Registrar"}
-        </button>
-      </form>
+        <form onSubmit={handle_submit}>
+          <div className="email_wrapper">
+            <label>Email:</label>
+            <input type="email" ref={emailRef} />
+          </div>
+          <div className="password_wrapper">
+            <label>Senha:</label>
+            <input type="password" ref={passwordRef} />
+          </div>
+          <button type="submit">
+            {modo === "login" ? "Entrar" : "Registrar"}
+          </button>
+        </form>
 
-      <p>
-        {modo === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
-        <button
-          onClick={() => setModo(modo === "login" ? "registro" : "login")}
-        >
-          {modo === "login" ? "Criar conta" : "Entrar"}
-        </button>
-      </p>
+        <div className="divider">
+          <div className="line"></div>
+          <p>Ou</p>
+          <div className="line"></div>
+        </div>
+
+        <p className="login_info">
+          {modo === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
+          <button
+            onClick={() => setModo(modo === "login" ? "registro" : "login")}
+          >
+            {modo === "login" ? "Criar conta" : "Entrar"}
+          </button>
+        </p>
+      </div>
     </div>
   );
 };

@@ -40,7 +40,7 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
-  const enviarMensagem = async (e) => {
+  const enviar_mensagem = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
     const texto = mensagemRef.current.value.trim();
@@ -55,23 +55,34 @@ const Home = () => {
   };
 
   return (
-    <div className="home_container">
-      <h2>Mensagens</h2>
+    <div id="home_main">
+      <header className="home_header">
+        <h1>Bem vindo, {auth.currentUser.email}</h1>
+        {/* preguiça de escrever um formulario pra pegar o nickname kkkkk vai de email msm */}
+      </header>
 
-      <ul>
-        {mensagens.map((m) => (
-          <li key={m.id}>{m.texto}</li>
-        ))}
-      </ul>
+      <div className="home_content">
+        <header className="home_content_header">
+          <h2>Mensagens</h2>
+        </header>
 
-      <form onSubmit={enviarMensagem}>
-        <input
-          type="text"
-          placeholder="Digite sua mensagem"
-          ref={mensagemRef}
-        />
-        <button type="submit">Enviar</button>
-      </form>
+        <div className="message_wrapper">
+          <ul>
+            {mensagens.map((m) => (
+              <li key={m.id}>{m.texto}</li>
+            ))}
+          </ul>
+
+          <form onSubmit={enviar_mensagem}>
+            <input
+              type="text"
+              placeholder="Digite sua mensagem"
+              ref={mensagemRef}
+            />
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
