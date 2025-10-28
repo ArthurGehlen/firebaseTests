@@ -72,16 +72,7 @@
   background-color: transparent;
   border: none;
   color: hsl(0, 0%, 100%);
-  text-decoration: underline;
+  text-decoration: undwerline;
   font-size: 1rem;
   cursor: pointer;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  #login_main {
-    background-color: hsl(0, 0%, 10%);
-  }
-  .login_container {
-    background-color: hsl(0, 0%, 100%);
-  }
-} */

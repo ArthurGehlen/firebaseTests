@@ -7,6 +7,8 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
 
 // Utils
 import "./Login.css";
@@ -16,6 +18,15 @@ const Login = () => {
   const passwordRef = useRef();
   const [modo, setModo] = useState("login");
   const navigator = useNavigate();
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigator("/home");
+      }
+    });
+    return () => unsub();
+  }, [navigator]);
 
   const handle_submit = async (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 // Hooks
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, cloneElement } from "react";
 import { auth, db } from "../firebase";
 import {
   collection,
@@ -9,6 +9,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router";
 
 // Utils
@@ -17,29 +18,45 @@ import "./Home.css";
 const Home = () => {
   const [mensagens, setMensagens] = useState([]);
   const mensagemRef = useRef();
+  const [user, setUser] = useState(null);
   const navigator = useNavigate();
 
+  {
+    /*
+    Lembrar de não deixar console.log pelo código :)
+  */
+  }
+
   useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Usuário não encontrado!");
-      navigator("/");
-    }
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      if (!u) {
+        alert("Usuário não encontrado!");
+        navigator("/");
+        return;
+      }
 
-    const mensagensRef = collection(db, "users", user.uid, "messages");
-    const q = query(mensagensRef, orderBy("criadaEm", "asc"));
+      setUser(u);
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const lista = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMensagens(lista);
+      const mensagensRef = collection(db, "users", u.uid, "messages");
+      const q = query(mensagensRef, orderBy("criadaEm", "asc"));
+
+      const unsubMsgs = onSnapshot(q, (snapshot) => {
+        const lista = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMensagens(lista);
+      });
+
+      return () => unsubMsgs();
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [navigator]);
 
+  {
+    /* o cara vai enviar mensagem pra ele msm kkkk (faltou verba pra fazer chat de conversa '-') */
+  }
   const enviar_mensagem = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -54,11 +71,17 @@ const Home = () => {
     mensagemRef.current.value = "";
   };
 
+  const sair = async () => {
+    await signOut(auth);
+    navigator("/");
+  };
+
   return (
     <div id="home_main">
       <header className="home_header">
-        <h1>Bem vindo, {auth.currentUser.email}</h1>
+        <h1>Bem vindo, {user ? user.email : "..."}</h1>
         {/* preguiça de escrever um formulario pra pegar o nickname kkkkk vai de email msm */}
+        <button onClick={sair}>Sair</button>
       </header>
 
       <div className="home_content">
