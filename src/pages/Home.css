@@ -13,7 +13,8 @@
   color: hsl(0, 0%, 100%);
   border-radius: 0.6rem;
   display: flex;
-  justify-content: space-between;  
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .home_header button {
@@ -30,7 +31,7 @@
 
 .home_header h1,
 .home_content h2 {
-  font-size: clamp(1rem, 2.2161vw + 0.338rem, 2rem);
+  font-size: clamp(1.4rem, 2.2161vw + 0.338rem, 2rem);
 }
 
 .home_content {
@@ -49,9 +50,17 @@
 }
 
 .message_wrapper ul {
+  list-style: none;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+
+.message_wrapper ul::-webkit-scrollbar {
+  display: none;
 }
 
 .message_wrapper form {
