@@ -1,10 +1,8 @@
-// Hooks
-import { useState, useEffect, useRef, cloneElement } from "react";
+import { useState, useEffect, useRef } from "react";
 import { auth, db } from "../firebase";
 import {
   collection,
   addDoc,
-  getDocs,
   onSnapshot,
   query,
   orderBy,
@@ -12,20 +10,14 @@ import {
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router";
 
-// Utils
 import "./Home.css";
 
 const Home = () => {
   const [mensagens, setMensagens] = useState([]);
   const mensagemRef = useRef();
+  const mensagensEndRef = useRef(null); // ref para o fim da lista
   const [user, setUser] = useState(null);
   const navigator = useNavigate();
-
-  {
-    /*
-    Lembrar de não deixar console.log pelo código :)
-  */
-  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
@@ -54,9 +46,13 @@ const Home = () => {
     return () => unsubscribe();
   }, [navigator]);
 
-  {
-    /* o cara vai enviar mensagem pra ele msm kkkk (faltou verba pra fazer chat de conversa '-') */
-  }
+  // useEffect pra fazer a animação de fim de lista
+  useEffect(() => {
+    if (mensagensEndRef.current) {
+      mensagensEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [mensagens]);
+
   const enviar_mensagem = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -80,20 +76,16 @@ const Home = () => {
     <div id="home_main">
       <header className="home_header">
         <h1>Bem vindo, {user ? user.email : "..."}</h1>
-        {/* preguiça de escrever um formulario pra pegar o nickname kkkkk vai de email msm */}
         <button onClick={sair}>Sair</button>
       </header>
 
       <div className="home_content">
-        <header className="home_content_header">
-          <h2>Mensagens</h2>
-        </header>
-
         <div className="message_wrapper">
           <ul>
             {mensagens.map((m) => (
               <li key={m.id}>{m.texto}</li>
             ))}
+            <div ref={mensagensEndRef} style={{ marginBottom: "0.8rem" }} />
           </ul>
 
           <form onSubmit={enviar_mensagem}>

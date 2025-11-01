@@ -56,7 +56,6 @@
   flex-direction: column;
   align-items: flex-end;
   overflow-y: auto;
-  padding-right: 0.5rem;
 }
 
 .message_wrapper ul::-webkit-scrollbar {
